@@ -19,7 +19,7 @@
 <body>
 <div id="authView" class="auth-wrap">
   <section class="auth-hero">
-    <div class="brand"><div class="sidebar-brand-title"><span class="brand-mark">T</span> TechPro</div><button class="close-sidebar" id="closeMenuBtn" type="button" aria-label="Fermer le menu" title="Fermer">×</button></div>
+    <div class="brand"><div class="sidebar-brand-title"><span class="brand-mark">T</span> TechPro</div></div>
     <div class="hero-copy">
       <h1>Tout votre métier.<br>Au même endroit.</h1>
       <p>Une application simple pour organiser votre activité, suivre vos clients, gérer vos interventions et piloter vos projets.</p>
@@ -117,6 +117,8 @@ $('forgotForm').addEventListener('submit',e=>{e.preventDefault();const email=$('
 $('logoutBtn').onclick=()=>{currentUser=null;localStorage.removeItem(SESSION);showAuth('login')};
 $('menuBtn').onclick=()=>$('sidebar').classList.toggle('open');
 $('closeMenuBtn').onclick=()=>$('sidebar').classList.remove('open');
+document.addEventListener('click',e=>{if(window.innerWidth<=760&&$('sidebar').classList.contains('open')&&!$('sidebar').contains(e.target)&&!$('menuBtn').contains(e.target))$('sidebar').classList.remove('open')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('sidebar').classList.remove('open')});
 $('topAddBtn').onclick=()=>openCreateForPage();
 function renderNav(){const r=role();$('navList').innerHTML=r.items.map(([id,ico,label])=>`<button class="nav-item ${page===id?'active':''}" data-page="${id}"><span class="nav-ico">${ico}</span>${label}</button>`).join('');document.querySelectorAll('#navList [data-page], .side-bottom [data-page]').forEach(b=>b.onclick=()=>{page=b.dataset.page;$('sidebar').classList.remove('open');renderPage()});$('sideName').textContent=currentUser.business||currentUser.name;$('sideRole').textContent=serviceLabel(currentUser);$('sideAvatar').textContent=(currentUser.name||'T').trim().charAt(0).toUpperCase();$('topRole').textContent=r.icon+' '+r.short}
 
